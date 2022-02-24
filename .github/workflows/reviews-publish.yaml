@@ -13,6 +13,7 @@ jobs:
       APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
       APOLLO_GRAPH_REF: ${{ secrets.APOLLO_GRAPH_REF }}
       APOLLO_VCS_COMMIT: ${{ github.event.pull_request.head.sha }}
+      APOLLO_GRAPH_REF_FED2: ${{ secrets.APOLLO_GRAPH_REF_FED2 }}
     steps:
       - uses: actions/checkout@v2
       - name: Install Rover
@@ -24,4 +25,4 @@ jobs:
           rover subgraph publish $APOLLO_GRAPH_REF --schema ./reviews/schema.graphql --name reviews
       - name: Publish reviews fed2
         run: |
-          rover subgraph publish lenny-scratch-1@current-fed2 --schema ./reviews/schema.graphql --name reviews
+          rover subgraph publish $APOLLO_GRAPH_REF_FED2 --schema ./reviews/schema.graphql --name reviews
