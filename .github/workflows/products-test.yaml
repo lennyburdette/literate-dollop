@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
-      APOLLO_GRAPH_REF: my-graph@prod
+      APOLLO_GRAPH_REF: ${{ secrets.APOLLO_GRAPH_REF }}
+      APOLLO_VCS_COMMIT: ${{ github.event.pull_request.head.sha }}
     steps:
       - uses: actions/checkout@v2
       - name: Install Rover
