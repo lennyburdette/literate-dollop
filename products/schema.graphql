@@ -1,5 +1,5 @@
 type Query {
-  products: [Product]
+  products(search: [String!]): [Product]
 }
 
 type Product @key(fields: "id") {
