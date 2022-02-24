@@ -25,10 +25,63 @@ export APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF
 npx apollosolutions/federation-2-readiness --graphref $APOLLO_GRAPH_REF
 ```
 
+reviews/schema.graphql
+
+```
+- product: Product @provides(fields: "price")
++ product: Product @provides(fields: "price { amount currencyCode }")
+```
+
 ### gateway upgrade
 
-1. install both versions, set up express route to switch between them at runtime
-2. yarn shift-traffic
+```json
+"@apollo/gateway": "^2.0.0-alpha.6",
+"@apollo/gateway-1": "npm:@apollo/gateway@^0.48.1",
+...
+"ioredis": "^4.28.5"
+```
+
+```js
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import { ApolloGateway as ApolloGateway2 } from "@apollo/gateway";
+import { ApolloGateway as ApolloGateway1 } from "@apollo/gateway-1";
+import Redis from "ioredis";
+
+const app = express();
+
+const redis = new Redis("redis:6379");
+
+const gateway1 = new ApolloGateway1();
+const server1 = new ApolloServer({ gateway: gateway1 });
+
+const gateway2 = new ApolloGateway2();
+const server2 = new ApolloServer({ gateway: gateway2 });
+
+await Promise.all([server1.start(), server2.start()]);
+
+const handler1 = server1.getMiddleware({ path: "/" });
+const handler2 = server2.getMiddleware({ path: "/" });
+
+app.all("/", async (req, res, next) => {
+  const rollout = parseFloat(await redis.get("gateway2rollout"));
+
+  if (rollout > Math.random()) {
+    console.log("gateway 2");
+    handler2(req, res, next);
+  } else {
+    console.log("gateway 1");
+    handler1(req, res, next);
+  }
+});
+
+app.listen(4000, () => console.log(`Gateway running`));
+```
+
+```
+redis-cli
+> SET gateway2rollout 0.5
+```
 
 ### build configuration
 

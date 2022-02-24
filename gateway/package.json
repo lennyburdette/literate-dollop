@@ -5,10 +5,12 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@apollo/gateway": "^0.48.1",
+    "@apollo/gateway": "^2.0.0-alpha.6",
+    "@apollo/gateway-1": "npm:@apollo/gateway@^0.48.1",
     "apollo-server-express": "^3.6.3",
     "express": "^4.17.3",
-    "graphql": "^16.3.0"
+    "graphql": "^16.3.0",
+    "ioredis": "^4.28.5"
   },
   "scripts": {
     "start": "node index.js"
