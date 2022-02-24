@@ -9,10 +9,19 @@
 6. run docker compose up
 7. yarn seed
 
+```
+source gateway.env
+gh secret set APOLLO_KEY -b"${APOLLO_KEY}"
+gh secret set APOLLO_GRAPH_REF -b"${APOLLO_GRAPH_REF}"
+gh workflow run "Initial Publish"
+```
+
 ### readiness
 
 ```sh
-source gateway.env
+source .env
+export APOLLO_KEY=$APOLLO_ADMIN_KEY
+export APOLLO_GRAPH_REF=$APOLLO_GRAPH_REF
 npx apollosolutions/federation-2-readiness --graphref $APOLLO_GRAPH_REF
 ```
 
