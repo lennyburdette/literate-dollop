@@ -22,3 +22,6 @@ jobs:
       - name: Check reviews
         run: |
           rover subgraph check $APOLLO_GRAPH_REF --schema ./reviews/schema.graphql --name reviews
+      - name: Check reviews fed2
+        run: |
+          rover subgraph check lenny-scratch-1@current-fed2 --schema ./reviews/schema.graphql --name reviews || true

@@ -22,3 +22,6 @@ jobs:
       - name: Publish products
         run: |
           rover subgraph publish $APOLLO_GRAPH_REF --schema ./products/schema.graphql --name products
+      - name: Publish products fed2
+        run: |
+          rover subgraph publish lenny-scratch-1@current-fed2 --schema ./products/schema.graphql --name products

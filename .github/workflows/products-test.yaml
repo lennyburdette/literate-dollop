@@ -22,3 +22,6 @@ jobs:
       - name: Check products
         run: |
           rover subgraph check $APOLLO_GRAPH_REF --schema ./products/schema.graphql --name products
+      - name: Check products fed2
+        run: |
+          rover subgraph check lenny-scratch-1@current-fed2 --schema ./products/schema.graphql --name products || true
