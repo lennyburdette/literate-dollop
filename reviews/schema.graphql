@@ -7,7 +7,7 @@ extend type Product @key(fields: "id") {
 type Review {
   id: ID!
   rating: Int
-  product: Product @provides(fields: "price { amount currencyCode }")
+  product: Product @provides(fields: "price")
 }
 
 type Price {
