@@ -6,7 +6,7 @@ on:
       - "products/**"
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
     env:
       APOLLO_KEY: ${{ secrets.APOLLO_KEY }}

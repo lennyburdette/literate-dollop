@@ -1,4 +1,4 @@
-name: Reviews Publish
+name: Products Publish
 on:
   push:
     branches: [main]
